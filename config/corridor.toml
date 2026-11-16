@@ -1,0 +1,32 @@
+# Roads of the corridor: OSM ref tags and names to pick them out, and a box for each. Buffer for analysis in km.
+buffer_km = 10
+box = [72.6, 33.7, 77.0, 37.2]       # west, south, east, north (Pakistan side; China side as extension)
+
+[[road]]
+id = "n35"
+name = "Karakoram Highway (N-35)"
+refs = ["N-35", "N35", "KKH"]
+names = ["Karakoram Highway", "Shahrah-e-Karakoram", "Karakorum Highway"]
+
+[[road]]
+id = "n15"
+name = "Babusar road (N-15)"
+refs = ["N-15", "N15"]
+names = ["Babusar", "Kaghan", "Naran"]
+
+[[road]]
+id = "astore"
+name = "Astore road"
+names = ["Astore"]
+
+[[road]]
+id = "ghizer"
+name = "Gilgit - Ghizer - Phander - Shandur road"
+refs = ["S-2"]
+names = ["Ghizer", "Shandur", "Gilgit-Chitral", "Gilgit Chitral", "Phander", "Phandar"]
+
+[[road]]
+id = "skardu"
+name = "Jaglot - Skardu road (S-1)"
+refs = ["S-1", "S1", "N-15A"]
+names = ["Skardu", "Jaglot", "Strategic Road", "Gilgit-Skardu"]
