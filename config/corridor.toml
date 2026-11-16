@@ -1,32 +1,67 @@
-# Roads of the corridor: OSM ref tags and names to pick them out, and a box for each. Buffer for analysis in km.
+# Roads of the corridor, each defined by its towns in order (lon, lat) and the OSM road classes it may use. Routes are
+# found through the OpenStreetMap network (src/01_roads.py), so a road is exactly the way a driver takes, not every
+# way that happens to share a name. Buffer for analysis in km.
 buffer_km = 10
-box = [72.6, 33.7, 77.0, 37.2]       # west, south, east, north (Pakistan side; China side as extension)
+box = [72.3, 33.4, 77.0, 37.2]       # west, south, east, north (Pakistan side; China side G314 as a later extension)
 
 [[road]]
 id = "n35"
+refs = ["N-35"]
 name = "Karakoram Highway (N-35)"
-refs = ["N-35", "N35", "KKH"]
-names = ["Karakoram Highway", "Shahrah-e-Karakoram", "Karakorum Highway"]
+classes = ["trunk", "trunk_link", "primary", "primary_link"]
+via = [["Hasan Abdal", 72.687, 33.822], ["Haripur", 72.934, 33.994], ["Havelian", 73.157, 34.053], ["Abbottabad", 73.213, 34.144],
+       ["Mansehra", 73.199, 34.333], ["Battagram", 73.028, 34.679], ["Thakot", 72.929, 34.786], ["Besham", 72.879, 34.928],
+       ["Dasu", 73.290, 35.290], ["Chilas", 74.100, 35.420], ["Raikot Bridge", 74.595, 35.493], ["Jaglot", 74.623, 35.691],
+       ["Dainyor", 74.385, 35.930], ["Aliabad", 74.610, 36.310], ["Attabad", 74.820, 36.330], ["Gulmit", 74.870, 36.390],
+       ["Sost", 74.821, 36.690], ["Khunjerab Pass", 75.428, 36.850]]
+
+[[road]]
+id = "m15"
+refs = ["M-15", "E-35"]
+name = "Hazara Motorway (M-15, formerly E-35)"
+classes = ["motorway", "motorway_link"]
+via = [["Burhan interchange", 72.640, 33.860], ["Haripur", 72.960, 33.990], ["Havelian", 73.160, 34.060], ["Mansehra", 73.230, 34.320],
+       ["Thakot", 72.929, 34.786]]
+
+[[road]]
+id = "gt_n5"
+refs = ["N-5"]
+name = "Grand Trunk Road (N-5), Islamabad - Hasan Abdal"
+classes = ["trunk", "trunk_link", "primary", "primary_link"]
+via = [["Islamabad (Golra Morr)", 72.990, 33.680], ["Tarnol", 72.910, 33.705], ["Taxila", 72.807, 33.747], ["Hasan Abdal", 72.687, 33.822]]
+
+[[road]]
+id = "m1"
+refs = ["M-1"]
+name = "Motorway M-1, Islamabad - Burhan (access to M-15)"
+classes = ["motorway", "motorway_link"]
+via = [["Islamabad (Thalian / M-1 start)", 72.960, 33.650], ["Burhan interchange", 72.640, 33.860]]
 
 [[road]]
 id = "n15"
-name = "Babusar road (N-15)"
-refs = ["N-15", "N15"]
-names = ["Babusar", "Kaghan", "Naran"]
+refs = ["N-15"]
+name = "Kaghan - Babusar road (N-15), Mansehra - Chilas"
+classes = ["trunk", "trunk_link", "primary", "primary_link", "secondary"]
+via = [["Mansehra", 73.199, 34.333], ["Garhi Habibullah", 73.378, 34.400], ["Balakot", 73.355, 34.545], ["Kaghan", 73.523, 34.776],
+       ["Naran", 73.650, 34.908], ["Babusar Pass", 74.047, 35.146], ["Chilas", 74.100, 35.420]]
 
 [[road]]
 id = "astore"
-name = "Astore road"
-names = ["Astore"]
+name = "Astore road, Raikot - Astore - Chillum"
+classes = ["trunk", "primary", "secondary", "tertiary", "unclassified"]
+via = [["Astore junction (KKH)", 74.620, 35.540], ["Dashkin", 74.760, 35.440], ["Astore", 74.856, 35.366], ["Gorikot", 74.843, 35.282],
+       ["Chillum", 75.102, 35.035]]
 
 [[road]]
 id = "ghizer"
 name = "Gilgit - Ghizer - Phander - Shandur road"
-refs = ["S-2"]
-names = ["Ghizer", "Shandur", "Gilgit-Chitral", "Gilgit Chitral", "Phander", "Phandar"]
+classes = ["trunk", "primary", "secondary", "tertiary", "unclassified"]
+via = [["Gilgit", 74.310, 35.920], ["Sher Qila", 74.000, 36.090], ["Gahkuch", 73.768, 36.180], ["Gupis", 73.448, 36.229],
+       ["Phander", 72.930, 36.160], ["Shandur Pass", 72.546, 36.089]]
 
 [[road]]
 id = "skardu"
+refs = ["S-1", "N-15A"]
 name = "Jaglot - Skardu road (S-1)"
-refs = ["S-1", "S1", "N-15A"]
-names = ["Skardu", "Jaglot", "Strategic Road", "Gilgit-Skardu"]
+classes = ["trunk", "primary", "secondary"]
+via = [["Jaglot junction (KKH)", 74.623, 35.691], ["Sassi", 74.900, 35.650], ["Rondu", 75.170, 35.540], ["Skardu", 75.655, 35.287]]
