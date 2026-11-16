@@ -1,67 +1,206 @@
-# Roads of the corridor, each defined by its towns in order (lon, lat) and the OSM road classes it may use. Routes are
-# found through the OpenStreetMap network (src/01_roads.py), so a road is exactly the way a driver takes, not every
-# way that happens to share a name. Buffer for analysis in km.
+# Roads of the study network. Each road is its places in order and the OSM road classes it may use; src/01_roads.py
+# finds each place in OSM (name:en or name; nearest to the previous place when the name repeats; a [lon, lat] hint is
+# used where a name is missing or ambiguous in OSM) and routes through the OpenStreetMap network between them.
+# Groups: trunk (national links), access (valleys where a public authority must keep roads, schools, clinics and
+# power reachable), passes (seasonal crossings). Buffer for analysis in km.
 buffer_km = 10
-box = [72.3, 33.4, 77.0, 37.2]       # west, south, east, north (Pakistan side; China side G314 as a later extension)
+box = [71.2, 33.4, 77.2, 37.2]       # west, south, east, north (Pakistan side; China G314 as a later extension)
 
+# ------------------------------------------------------------------ trunk
 [[road]]
 id = "n35"
+group = "trunk"
 refs = ["N-35"]
-name = "Karakoram Highway (N-35)"
+name = "Karakoram Highway (N-35), Hasan Abdal - Khunjerab"
 classes = ["trunk", "trunk_link", "primary", "primary_link"]
-via = [["Hasan Abdal", 72.687, 33.822], ["Haripur", 72.934, 33.994], ["Havelian", 73.157, 34.053], ["Abbottabad", 73.213, 34.144],
-       ["Mansehra", 73.199, 34.333], ["Battagram", 73.028, 34.679], ["Thakot", 72.929, 34.786], ["Besham", 72.879, 34.928],
-       ["Dasu", 73.290, 35.290], ["Chilas", 74.100, 35.420], ["Raikot Bridge", 74.595, 35.493], ["Jaglot", 74.623, 35.691],
-       ["Dainyor", 74.385, 35.930], ["Aliabad", 74.610, 36.310], ["Attabad", 74.820, 36.330], ["Gulmit", 74.870, 36.390],
-       ["Sost", 74.821, 36.690], ["Khunjerab Pass", 75.428, 36.850]]
+via = [["Hasan Abdal"], ["Haripur"], ["Havelian", 73.157, 34.053], ["Abbottabad"], ["Mansehra"], ["Battagram"], ["Thakot"],
+       ["Besham", 72.879, 34.928], ["Dasu", 73.290, 35.290], ["Chilas"], ["Raikot Bridge", 74.595, 35.493], ["Jaglot", 74.623, 35.691],
+       ["Dainyor", 74.385, 35.930], ["Aliabad", 74.610, 36.310], ["Attabad", 74.820, 36.330], ["Gulmit"], ["Passu", 74.890, 36.470],
+       ["Sost"], ["Khunjerab Pass"]]
 
 [[road]]
 id = "m15"
+group = "trunk"
 refs = ["M-15", "E-35"]
-name = "Hazara Motorway (M-15, formerly E-35)"
+name = "Hazara Motorway (M-15, formerly E-35), Burhan - Thakot"
 classes = ["motorway", "motorway_link"]
 via = [["Burhan interchange", 72.640, 33.860], ["Haripur", 72.960, 33.990], ["Havelian", 73.160, 34.060], ["Mansehra", 73.230, 34.320],
-       ["Thakot", 72.929, 34.786]]
+       ["Thakot"]]
 
 [[road]]
 id = "gt_n5"
+group = "trunk"
 refs = ["N-5"]
 name = "Grand Trunk Road (N-5), Islamabad - Hasan Abdal"
 classes = ["trunk", "trunk_link", "primary", "primary_link"]
-via = [["Islamabad (Golra Morr)", 72.990, 33.680], ["Tarnol", 72.910, 33.705], ["Taxila", 72.807, 33.747], ["Hasan Abdal", 72.687, 33.822]]
+via = [["Islamabad (Golra Morr)", 72.990, 33.680], ["Tarnol", 72.910, 33.705], ["Taxila"], ["Hasan Abdal"]]
 
 [[road]]
 id = "m1"
+group = "trunk"
 refs = ["M-1"]
-name = "Motorway M-1, Islamabad - Burhan (access to M-15)"
+name = "Motorway M-1, Islamabad - Burhan"
 classes = ["motorway", "motorway_link"]
-via = [["Islamabad (Thalian / M-1 start)", 72.960, 33.650], ["Burhan interchange", 72.640, 33.860]]
+via = [["Islamabad (M-1 start)", 72.960, 33.650], ["Burhan interchange", 72.640, 33.860]]
+
+[[road]]
+id = "isb_chitral"
+group = "trunk"
+refs = ["N-45", "M-16", "N-95"]
+name = "Islamabad - Swat Expressway - Dir - Lowari Tunnel - Chitral (N-45)"
+classes = ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "primary_link", "secondary"]
+via = [["Islamabad (M-1 start)", 72.960, 33.650], ["Chakdara"], ["Timergara"], ["Dir"], ["Lowari Tunnel", 71.790, 35.360], ["Drosh"],
+       ["Chitral"]]
+
+[[road]]
+id = "murree_old"
+group = "trunk"
+name = "Old Murree Road (N-75), Islamabad - Bhara Kahu - Murree"
+classes = ["trunk", "trunk_link", "primary", "primary_link", "secondary"]
+via = [["Bhara Kahu"], ["Satra Meel", 73.330, 33.860], ["Murree"]]
+
+[[road]]
+id = "murree_new"
+group = "trunk"
+name = "Murree Expressway, Islamabad - Murree - Kohala"
+classes = ["motorway", "motorway_link", "trunk", "trunk_link"]
+via = [["Bhara Kahu"], ["Lower Topa", 73.430, 33.880], ["Kohala"]]
 
 [[road]]
 id = "n15"
+group = "trunk"
 refs = ["N-15"]
 name = "Kaghan - Babusar road (N-15), Mansehra - Chilas"
 classes = ["trunk", "trunk_link", "primary", "primary_link", "secondary"]
-via = [["Mansehra", 73.199, 34.333], ["Garhi Habibullah", 73.378, 34.400], ["Balakot", 73.355, 34.545], ["Kaghan", 73.523, 34.776],
-       ["Naran", 73.650, 34.908], ["Babusar Pass", 74.047, 35.146], ["Chilas", 74.100, 35.420]]
-
-[[road]]
-id = "astore"
-name = "Astore road, Raikot - Astore - Chillum"
-classes = ["trunk", "primary", "secondary", "tertiary", "unclassified"]
-via = [["Astore junction (KKH)", 74.620, 35.540], ["Dashkin", 74.760, 35.440], ["Astore", 74.856, 35.366], ["Gorikot", 74.843, 35.282],
-       ["Chillum", 75.102, 35.035]]
-
-[[road]]
-id = "ghizer"
-name = "Gilgit - Ghizer - Phander - Shandur road"
-classes = ["trunk", "primary", "secondary", "tertiary", "unclassified"]
-via = [["Gilgit", 74.310, 35.920], ["Sher Qila", 74.000, 36.090], ["Gahkuch", 73.768, 36.180], ["Gupis", 73.448, 36.229],
-       ["Phander", 72.930, 36.160], ["Shandur Pass", 72.546, 36.089]]
+via = [["Mansehra"], ["Garhi Habibullah", 73.378, 34.400], ["Balakot", 73.355, 34.545], ["Kaghan", 73.523, 34.776], ["Naran", 73.650, 34.908],
+       ["Babusar Pass"], ["Chilas"]]
 
 [[road]]
 id = "skardu"
+group = "trunk"
 refs = ["S-1", "N-15A"]
 name = "Jaglot - Skardu road (S-1)"
 classes = ["trunk", "primary", "secondary"]
-via = [["Jaglot junction (KKH)", 74.623, 35.691], ["Sassi", 74.900, 35.650], ["Rondu", 75.170, 35.540], ["Skardu", 75.655, 35.287]]
+via = [["Jaglot junction (KKH)", 74.623, 35.691], ["Skardu"]]
+
+# ------------------------------------------------------------------ access roads, valleys
+[[road]]
+id = "gilgit_chitral"
+group = "access"
+name = "Gilgit - Ghizer - Phander - Shandur - Mastuj - Chitral"
+classes = ["trunk", "primary", "secondary", "tertiary", "unclassified", "track"]
+via = [["Gilgit"], ["Sher Qila", 74.000, 36.090], ["Gahkuch"], ["Gupis"], ["Phander", 72.930, 36.160], ["Shandur Pass"], ["Mastuj"],
+       ["Booni", 72.270, 36.270], ["Chitral"]]
+
+[[road]]
+id = "astore"
+group = "access"
+name = "Astore road, Raikot - Astore - Chillum"
+classes = ["trunk", "primary", "secondary", "tertiary", "unclassified"]
+via = [["Astore junction (KKH)", 74.620, 35.540], ["Astore", 74.856, 35.366], ["Gorikot"], ["Chillum"]]
+
+[[road]]
+id = "neelum"
+group = "access"
+name = "Neelum valley road, Muzaffarabad - Athmuqam - Sharda - Kel - Taobat"
+classes = ["trunk", "primary", "secondary", "tertiary", "unclassified", "track"]
+via = [["Muzaffarabad"], ["Athmuqam"], ["Keran"], ["Sharda"], ["Kel"], ["Taobat"]]
+
+[[road]]
+id = "shimshal"
+group = "access"
+name = "Shimshal road, Passu - Shimshal"
+classes = ["secondary", "tertiary", "unclassified", "track"]
+via = [["Passu", 74.890, 36.470], ["Shimshal"]]
+
+[[road]]
+id = "chapursan"
+group = "access"
+name = "Chapursan valley road, Sost - Zood Khun"
+classes = ["secondary", "tertiary", "unclassified", "track"]
+via = [["Sost"], ["Reshit", 74.560, 36.840], ["Zood Khun", 74.380, 36.850]]
+
+[[road]]
+id = "nagar_hoper"
+group = "access"
+name = "Nagar - Hoper road"
+classes = ["secondary", "tertiary", "unclassified", "track"]
+via = [["Ganish", 74.680, 36.310], ["Nagar", 74.640, 36.260], ["Hoper", 74.810, 36.230]]
+
+[[road]]
+id = "naltar"
+group = "access"
+name = "Naltar valley road, Nomal - Naltar"
+classes = ["secondary", "tertiary", "unclassified", "track"]
+via = [["Nomal"], ["Naltar", 74.190, 36.150]]
+
+[[road]]
+id = "yasin"
+group = "access"
+name = "Gupis - Yasin"
+classes = ["secondary", "tertiary", "unclassified", "track"]
+via = [["Gupis"], ["Yasin", 73.300, 36.370]]
+
+[[road]]
+id = "ishkoman"
+group = "access"
+name = "Gahkuch - Chatorkhand - Ishkoman"
+classes = ["secondary", "tertiary", "unclassified", "track"]
+via = [["Gahkuch"], ["Chatorkhand", 73.847, 36.347], ["Ishkoman Payeen", 73.819, 36.532]]
+
+[[road]]
+id = "shigar_askole"
+group = "access"
+name = "Skardu - Shigar - Askole"
+classes = ["secondary", "tertiary", "unclassified", "track"]
+via = [["Skardu"], ["Shigar"], ["Askole", 75.810, 35.680]]
+
+[[road]]
+id = "khaplu_hushe"
+group = "access"
+name = "Skardu - Khaplu - Hushe"
+classes = ["primary", "secondary", "tertiary", "unclassified", "track"]
+via = [["Skardu"], ["Khaplu"], ["Hushe", 76.370, 35.440]]
+
+[[road]]
+id = "kalash_bumburet"
+group = "access"
+name = "Chitral - Ayun - Bumburet (Kalash)"
+classes = ["secondary", "tertiary", "unclassified", "track", "residential"]
+via = [["Chitral"], ["Ayun"], ["Brun (Bumburet)", 71.695, 35.698], ["Anish (Bumburet)", 71.702, 35.713]]
+
+[[road]]
+id = "kalash_rumbur"
+group = "access"
+name = "Ayun - Rumbur (Kalash)"
+classes = ["secondary", "tertiary", "unclassified", "track", "residential"]
+via = [["Ayun"], ["Rumbur", 71.680, 35.760]]
+
+[[road]]
+id = "kalash_birir"
+group = "access"
+name = "Ayun - Birir (Kalash)"
+classes = ["secondary", "tertiary", "unclassified", "track", "residential"]
+via = [["Ayun"], ["Birir", 71.700, 35.640]]
+
+# ------------------------------------------------------------------ passes
+[[road]]
+id = "burzil"
+group = "passes"
+name = "Burzil Pass road, Chillum - Burzil - Minimarg"
+classes = ["secondary", "tertiary", "unclassified", "track"]
+via = [["Chillum"], ["Burzil Pass", 75.110, 34.900], ["Minimarg", 75.020, 34.790]]
+
+[[road]]
+id = "deosai"
+group = "passes"
+name = "Skardu - Sadpara - Deosai - Chillum"
+classes = ["secondary", "tertiary", "unclassified", "track"]
+via = [["Skardu"], ["Sadpara", 75.640, 35.230], ["Deosai", 75.420, 35.020], ["Chillum"]]
+
+[[road]]
+id = "noori_top"
+group = "passes"
+name = "Noori Top pass, Sharda - Noori Top - Jalkhad (N-15)"
+classes = ["secondary", "tertiary", "unclassified", "track"]
+via = [["Sharda"], ["Noori Top", 74.095, 34.905], ["Jalkhad", 73.937, 35.000]]

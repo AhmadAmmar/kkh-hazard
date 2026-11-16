@@ -9,3 +9,4 @@ tutorial/sar_dem/animation/out/*.gif
 tutorial/sar_dem/out/S1*
 data/processed/gem15_list.txt
 tutorial/notebooks/downloads/
+data/raw/geology/gsp/pages/prev_*
