@@ -4,10 +4,28 @@ Credit: Muddasir Shah (ex-colleague). Used for ideas and methods only; nothing c
 
 1. "SAR interferometry, phase unwrapping with SNAPHU and DEM generation" (LinkedIn article):
    https://www.linkedin.com/pulse/sar-interferometry-phase-unwrapping-snaphu-dem-generation-shah-fgxsf/
-   LinkedIn blocks automated reading; the text is still to be read (pasted in by hand) and folded into tutorial/sar_dem.
+   Read (PDF supplied by the user, 2026-11-16). Taken into tutorial/sar_dem:
+   - the phase budget dphi = flat + elevation + displacement + atmosphere + noise + error; only the first three carry
+     signal, and which one is wanted decides a DEM job versus a deformation job;
+   - DEM job: short time gap so displacement ~ 0; z = -lambda R0 sin(theta) / (4 pi B_n) dphi_topo;
+     height of ambiguity h_a = lambda R0 sin(theta) / (2 B_n): larger baseline, finer height, denser fringes;
+   - deformation job: remove topography with an external DEM; d_LOS = lambda / (4 pi) dphi, v = d_LOS / dT; no
+     baseline term; DEM error and atmosphere leak straight into apparent motion;
+   - SNAPHU: fewest tiles memory allows (2x2 on 8 GB), overlap 100-200 px (0 gives seams or empty output), tile cost
+     threshold 500, processors = physical cores, initial method MCF not MST, cost mode TOPO for DEM, DEFO for motion.
 2. "From VV/VH dB to covariance matrices: first lessons from NISAR L2" (LinkedIn article):
    https://www.linkedin.com/pulse/from-vvvh-db-covariance-matrices-first-lessons-nisar-l2-muddasir-shah-vohxf/
-   Same: text to be read.
+   Read (PDF supplied by the user). Taken in:
+   - GCOV is geocoded, radiometrically terrain-corrected (gamma0) polarimetric covariance; diagonal terms are power
+     (HHHH ~ HH, HVHV ~ HV, VVVV, VHVH), dB = 10 log10; sigma0 = gamma0 x rtcGammaToSigmaFactor when needed;
+   - one file can hold frequencyA and frequencyB with different bandwidths and polarisations (e.g. 20+5 MHz;
+     QP on A, DH on B): full-pol decompositions (Cloude-Pottier H/A/alpha, Freeman-Durden) only where off-diagonals
+     exist; otherwise dual-pol ratios and texture;
+   - mask 1-5 valid (sub-swath), 0 invalid, 255 fill: respect it, do not fill, keep it the same across dates;
+   - very bright patches: corner-reflector geometry, double bounce, rough water; here: bridges, gabions, cut faces;
+   - reference: Shiroma (2024) NISAR L2 GCOV product specification, JPL D-102274.
+   Over the KKH our tracks are DHDH (dual-pol HH/HV) mostly, with QPDH on descending track 063 some dates: full-pol
+   decomposition possible on those, for debris, scree, vegetation and wet ground classes.
 3. Colab notebook (shared link; local copy in data/raw/reference_shah/, not redistributed):
    NISAR L2 GCOV quicklooks with h5py. Points taken:
    - read HDF5 with striding (downsample on read) to keep memory low;
