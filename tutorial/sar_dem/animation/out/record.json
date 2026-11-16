@@ -1,0 +1,98 @@
+{
+ "lon": 74.82,
+ "lat": 36.32,
+ "km": 5,
+ "pixel_m": 13.88888888888889,
+ "seed": 7,
+ "lambda_m": 0.05546576,
+ "bperp_m": 440.0,
+ "R0_m": 850000.0,
+ "look_deg": 39.0,
+ "h_ambiguity_m": 33.71576557626701,
+ "m_per_rad": -5.3660307515904595,
+ "frames": 528,
+ "scenes": {
+  "1_geometry": 0,
+  "2_slc": 48,
+  "3_interferogram": 96,
+  "4_flat_earth": 144,
+  "5_coherence": 192,
+  "6_unwrapping": 240,
+  "7_height": 348,
+  "8_points": 408
+ },
+ "points": [
+  {
+   "position": "36.3110 N  74.8088 E",
+   "residual phase": "-0.30 rad",
+   "whole cycles k": "-",
+   "radar height": "no data (masked)",
+   "true height": "2,507 m"
+  },
+  {
+   "position": "36.3154 N  74.8312 E",
+   "residual phase": "+1.27 rad",
+   "whole cycles k": "-",
+   "radar height": "no data (masked)",
+   "true height": "3,254 m"
+  },
+  {
+   "position": "36.3154 N  74.8312 E",
+   "residual phase": "+1.27 rad",
+   "whole cycles k": "-",
+   "radar height": "no data (masked)",
+   "true height": "3,254 m"
+  },
+  {
+   "position": "36.3312 N  74.8201 E",
+   "residual phase": "-2.39 rad",
+   "whole cycles k": "-58",
+   "unwrapped phase": "-366.81 rad",
+   "relative to ref.": "-367.98 rad",
+   "x m per rad": "-5.37",
+   "radar height": "5,780 m",
+   "true height": "3,788 m",
+   "error": "+1991.5 m"
+  },
+  {
+   "position": "36.3312 N  74.8201 E",
+   "residual phase": "-2.39 rad",
+   "whole cycles k": "-58",
+   "unwrapped phase": "-366.81 rad",
+   "relative to ref.": "-367.98 rad",
+   "x m per rad": "-5.37",
+   "radar height": "5,780 m",
+   "true height": "3,788 m",
+   "error": "+1991.5 m"
+  },
+  {
+   "position": "36.3290 N  74.8034 E",
+   "residual phase": "-0.76 rad",
+   "whole cycles k": "-97",
+   "unwrapped phase": "-610.22 rad",
+   "relative to ref.": "-611.40 rad",
+   "x m per rad": "-5.37",
+   "radar height": "6,872 m",
+   "true height": "3,609 m",
+   "error": "+3262.8 m"
+  },
+  {
+   "position": "36.3290 N  74.8034 E",
+   "residual phase": "-0.76 rad",
+   "whole cycles k": "-97",
+   "unwrapped phase": "-610.22 rad",
+   "relative to ref.": "-611.40 rad",
+   "x m per rad": "-5.37",
+   "radar height": "6,872 m",
+   "true height": "3,609 m",
+   "error": "+3262.8 m"
+  },
+  {
+   "position": "36.3110 N  74.8088 E",
+   "residual phase": "-0.30 rad",
+   "whole cycles k": "-",
+   "radar height": "no data (masked)",
+   "true height": "2,507 m"
+  }
+ ]
+}

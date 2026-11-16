@@ -1,0 +1,3 @@
+product,pass,lambda_cm,bperp_m,slant_range_km,incidence_deg,h_ambiguity_m,corridor_cells,coh_median,share_coh_ge_0.4,share_used,d_p5_cm,d_p95_cm
+NISAR_L2_PR_GUNW_031_055_A_020_032_2000_SH_20260922T000631_2,asc,24.39,-0.34,963.8,41.4,225645,740196,0.667,0.747,0.465,-2.1,3.1
+NISAR_L2_PR_GUNW_031_063_D_070_032_2000_SH_20260922T135415_2,desc,24.39,-33.73,964.4,41.4,2306,1657415,0.629,0.75,0.74,-2.3,13.0
