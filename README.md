@@ -10,7 +10,8 @@ Open data only (OpenStreetMap, Copernicus DEM, Sentinel-1, Sentinel-2, Landsat, 
 | Step | Script | State |
 |---|---|---|
 | Roads, bridges, tunnels, dams, 100 m segments | `src/01_roads.py` | done |
-| Copernicus GLO-30 elevation | `src/02_dem.py` | done |
+| Copernicus GLO-30 elevation (30 m surface) | `src/02_dem.py` | done |
+| Google GEM-15 elevation (15 m surface and bare-earth terrain) | `src/02b_gem15.py` | downloading |
 | Terrain predictors (slope, curvature, TWI, SPI, HAND, relief) | `src/03_terrain.py` | running |
 | Faults, earthquakes, landslide inventories | `src/05_inventories.py` | faults, quakes done |
 | SAR elevation tutorial (Sentinel-1 InSAR) | `tutorial/sar_dem/` | pairs found |

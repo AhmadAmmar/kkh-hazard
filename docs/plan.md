@@ -20,6 +20,7 @@ code; every step is documented and repeatable.
 ## Data, best open first
 | Need | Source | Res. | Notes |
 |---|---|---|---|
+| Surface and terrain (DSM, DTM) | Google GEM-15 v1 (Batchu et al. 2026, EE, CC-BY 4.0) | 15 m | primary: stereo-derived, bare-earth dtm; experimental, check bias |
 | Surface (DSM) | Copernicus DEM GLO-30 (TanDEM-X derived, 2011-15) | 30 m | best open global DSM; GLO-90 for checks |
 | Surface (DSM) | ALOS AW3D30 v4.1, NASADEM, SRTM | 30 m | inter-comparison, voids |
 | Terrain (DTM) | FABDEM (forest/building removed GLO-30) | 30 m | for hydrology and slope where trees bias the DSM |
