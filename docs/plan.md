@@ -26,6 +26,7 @@ code; every step is documented and repeatable.
 | Terrain (DTM) | FABDEM (forest/building removed GLO-30) | 30 m | for hydrology and slope where trees bias the DSM |
 | Higher resolution | High Mountain Asia 8 m DEM (NSIDC HMA_DEM8m, from WorldView/GeoEye stereo) | 8 m | patchy; mosaic where present |
 | SAR DEM (built here) | Sentinel-1 InSAR pairs (ASF HyP3, 6-12 day, short baseline) | 20-40 m | tutorial: make a DEM, and show why S-1 is weak for DEMs (short baselines, layover) |
+| L-band SAR | NISAR L2 GCOV, GUNW, GOFF (ASF; 12-day, Nov 2025 to now, asc 055/156, desc 063) | 20-80 m | coherence on steep and vegetated slopes; motion; backscatter change (see docs/references_shah.md) |
 | SAR change | Sentinel-1 InSAR / SBAS velocity (HyP3, LiCSAR, EGMS-like) | 40-80 m | active landslides, creeping slopes |
 | Optical | Sentinel-2, Landsat, PlanetScope NICFI (no: not tropics) | 10-30 m | debris flows, scars, lakes |
 | Land cover | kashmir-landcover v2 (this workspace) | 30 m | classes from config/classes.toml |
