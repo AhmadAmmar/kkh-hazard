@@ -3,3 +3,8 @@ outputs/*.log
 __pycache__/
 tutorial/sar_dem/out/*.zip
 tutorial/sar_dem/out/*/
+tutorial/sar_dem/animation/out/frames/
+tutorial/sar_dem/animation/out/*.mp4
+tutorial/sar_dem/animation/out/*.gif
+tutorial/sar_dem/out/S1*
+data/processed/gem15_list.txt

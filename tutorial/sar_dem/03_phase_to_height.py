@@ -37,19 +37,16 @@ LAMBDA = 0.05546576
 
 def meta(txt):
     d = {}
-    for line in txt.read_text().splitlines():
+    for line in txt.read_text(encoding="utf-8", errors="replace").splitlines():
         if ":" in line:
             k, v = line.split(":", 1); d[k.strip()] = v.strip()
     return d
 
 
-def num(d, *keys, default=None):
-    for k in d:
-        if any(x.lower() in k.lower() for x in keys):
-            m = re.search(r"-?\d+\.?\d*", d[k])
-            if m:
-                return float(m.group())
-    return default
+def num(d, key, default=None):
+    """Exact key from the HyP3 metadata file (e.g. 'Baseline', 'Slant range center')."""
+    m = re.search(r"-?\d+\.?\d*", d.get(key, ""))
+    return float(m.group()) if m else default
 
 
 def main():
@@ -67,14 +64,15 @@ def main():
             if not d.exists():
                 zipfile.ZipFile(z).extractall(O)
             g = lambda s: next(d.glob(f"*_{s}.tif"))
-            md = meta(next(d.glob("*[0-9].txt")) if list(d.glob("*[0-9].txt")) else next(d.glob("*.txt")))
-            bperp = num(md, "Baseline", default=None)
-            R0 = num(md, "Slant range center", "Slant range", default=850e3)
+            md = meta(d / f"{d.name}.txt")              # the metadata file; *.README.md.txt is the product guide
+            bperp = num(md, "Baseline")
+            R0 = num(md, "Slant range center", 850e3)
             with rasterio.open(g("unw_phase")) as r:
                 unw = r.read(1).astype("float64"); prof = r.profile
             corr = rasterio.open(g("corr")).read(1)
             dem = rasterio.open(g("dem")).read(1).astype("float64")
-            inc = np.radians(rasterio.open(g("inc_map")).read(1)) if list(d.glob("*_inc_map.tif")) else np.full(unw.shape, 0.68)
+            inc = rasterio.open(g("inc_map")).read(1).astype("float64")          # radians in HyP3 (checked: max < pi/2)
+            inc = np.where(inc > 3.2, np.radians(inc), inc)
             ok = (corr >= 0.4) & (unw != 0) & np.isfinite(unw)
             from scipy.ndimage import generic_filter  # noqa: F401  (slope via gradient below)
             gy, gx = np.gradient(dem, 40)
