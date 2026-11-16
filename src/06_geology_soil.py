@@ -165,7 +165,7 @@ def aster():
         out = ee.Image.cat(b("B05").add(b("B07")).divide(b("B06")).rename("AlOH"),
                            b("B07").add(b("B09")).divide(b("B08")).rename("MgOH_carbonate"),
                            b("B02").divide(b("B01")).rename("ferric_iron"),
-                           b("B05").divide(b("B03")).add(b("B01").divide(b("B02"))).rename("ferrous_iron"),
+                           b("B05").divide(b("B3N")).add(b("B01").divide(b("B02"))).rename("ferrous_iron"),
                            b("B11").pow(2).divide(b("B10").multiply(b("B12"))).rename("quartz_ninomiya"))
         return out.updateMask(snow.Not())
     print("ASTER scenes (snow-free season, SWIR era):", col.size().getInfo(), flush=True)

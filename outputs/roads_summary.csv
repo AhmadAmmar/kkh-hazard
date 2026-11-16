@@ -1,6 +1,27 @@
-road_name,km,ways,bridge_km,tunnel_km
-Astore road,251.62,75,0.92,0.0
-Babusar road (N-15),234.47,100,1.3,0.48
-Gilgit - Ghizer - Phander - Shandur road,230.04,67,1.22,0.0
-Jaglot - Skardu road (S-1),273.62,118,2.26,0.0
-Karakoram Highway (N-35),826.46,418,7.6,8.67
+road,group,km,stretches,bridge_km,tunnel_km,worst_snap_m,worst_snap_town
+"Karakoram Highway (N-35), Hasan Abdal - Khunjerab",trunk,806.8,18,7.4,12.03,5966,Dasu
+"Hazara Motorway (M-15, formerly E-35), Burhan - Thakot",trunk,165.7,4,13.35,7.55,13351,Thakot
+"Grand Trunk Road (N-5), Islamabad - Hasan Abdal",trunk,50.4,3,0.76,0.0,266,Taxila
+"Motorway M-1, Islamabad - Burhan",trunk,39.6,1,0.73,0.0,9898,Islamabad (M-1 start)
+Islamabad - Swat Expressway - Dir - Lowari Tunnel - Chitral (N-45),trunk,384.0,6,5.72,20.62,1632,Lowari Tunnel
+"Old Murree Road (N-75), Islamabad - Bhara Kahu - Murree",trunk,40.0,2,0.03,0.0,248,Satra Meel
+"Murree Expressway, Islamabad - Murree - Kohala",trunk,83.4,2,0.37,0.0,453,Bhara Kahu
+"Kaghan - Babusar road (N-15), Mansehra - Chilas",trunk,245.3,6,1.54,0.48,134,Naran
+Jaglot - Skardu road (S-1),trunk,179.7,1,1.12,0.0,731,Jaglot junction (KKH)
+Gilgit - Ghizer - Phander - Shandur - Mastuj - Chitral,access,364.6,8,1.26,0.0,630,Phander
+"Astore road, Raikot - Astore - Chillum",access,105.6,3,0.67,0.0,477,Astore junction (KKH)
+"Neelum valley road, Muzaffarabad - Athmuqam - Sharda - Kel - Taobat",access,193.9,5,1.48,0.0,253,Keran
+"Shimshal road, Passu - Shimshal",access,57.1,1,0.43,0.0,364,Passu
+"Chapursan valley road, Sost - Zood Khun",access,51.9,2,0.17,0.0,2117,Reshit
+Nagar - Hoper road,access,41.7,2,0.27,0.0,2520,Nagar
+"Naltar valley road, Nomal - Naltar",access,19.5,1,0.09,0.0,982,Naltar
+Gupis - Yasin,access,24.7,1,0.21,0.0,1873,Yasin
+Gahkuch - Chatorkhand - Ishkoman,access,50.7,2,11.9,0.0,394,Chatorkhand
+Skardu - Shigar - Askole,access,111.5,2,0.69,0.01,160,Shigar
+Skardu - Khaplu - Hushe,access,131.6,2,0.51,0.0,120,Skardu
+Chitral - Ayun - Bumburet (Kalash),access,34.2,3,0.1,0.0,325,Brun (Bumburet)
+Ayun - Rumbur (Kalash),access,17.7,1,0.06,0.0,914,Rumbur
+Ayun - Birir (Kalash),access,12.5,1,0.04,0.0,117,Birir
+"Burzil Pass road, Chillum - Burzil - Minimarg",passes,34.2,2,0.13,0.0,72,Chillum
+Skardu - Sadpara - Deosai - Chillum,passes,82.6,3,0.41,0.0,445,Deosai
+"Noori Top pass, Sharda - Noori Top - Jalkhad (N-15)",passes,50.6,2,0.19,0.0,170,Sharda
