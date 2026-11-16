@@ -94,7 +94,9 @@ def fringe_coherence(ifg, s1, s2, L=5):
             sh = lambda a: np.roll(np.roll(a, -dy, 0), -dx, 1)
             num += sh(ifg) * np.exp(-1j * (gx * dx + gy * dy))
             p1 += sh(np.abs(s1) ** 2); p2 += sh(np.abs(s2) ** 2)
-    return num, np.abs(num) / np.sqrt(p1 * p2)
+    coh = np.abs(num) / np.sqrt(p1 * p2)
+    coh[:h], coh[-h:], coh[:, :h], coh[:, -h:] = 0, 0, 0, 0     # windows that wrapped round the image edge
+    return num, coh
 
 
 def wrap(p):
@@ -208,10 +210,10 @@ def scene_ifg(film, sim, fps):
 
 
 def scene_flat(film, sim, ifg, fps):
-    flat = np.exp(1j * sim["phi_flat"])
+    flat = np.exp(-1j * sim["phi_flat"])          # remove: multiply by the conjugate of the predicted ramp
     out = ifg * flat
     for t in np.linspace(0, 1, int(fps * 4)):
-        mix = ifg * np.exp(1j * sim["phi_flat"] * t)
+        mix = ifg * np.exp(-1j * sim["phi_flat"] * t)
         fig = frame("Remove the flat-earth phase, using the orbits", "4  Flat-earth removal",
                     f"The orbits are known to centimetres, so the ramp can be computed and removed. What remains follows the terrain: "
                     f"each fringe (one full colour cycle) is one height of ambiguity, h_a = lambda R0 sin(theta) / (2 B_perp) = "
