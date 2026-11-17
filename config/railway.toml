@@ -1,0 +1,53 @@
+# Railway planning settings (src/40_railway.py). Planning-level only: every number here is an assumption to vary.
+
+[design]
+ruling_grade_pct = 2.5      # mountain main line (Swiss Gotthard old line 2.6-2.7 %, Qinghai-Tibet ~2 %); 1.2 % = heavy freight ideal
+tunnel_depth_m = 12         # rail more than this below ground: tunnel (else deep cut)
+bridge_height_m = 12        # rail more than this above ground: bridge or viaduct (else embankment)
+max_bridge_m = 150          # tallest viaduct allowed (cost of a bridge also grows with pier height)
+
+[unit_cost_musd_per_km]     # [low, high], million US$ per km, 2024 prices, indicative ranges for mountain lines
+open_line = [8, 20]         # single track, formation, track, signalling, electrification, in mountain terrain
+tunnel = [30, 70]           # single-track rail tunnel, drill-and-blast or TBM in mixed rock (regional and international ranges)
+bridge = [25, 50]           # viaducts and bridges
+
+[line.havelian_khunjerab]
+name = "Havelian - Khunjerab railway (CPEC proposal), planning sketch"
+start = ["Havelian (ML-1 terminus)", 73.157, 34.053]
+end = ["Khunjerab Pass", 75.428, 36.850]
+follow = ["n35", "m15"]
+band_km = 15
+r_min_m = 500
+summit_drop_m = 1000      # a summit (base) tunnel under Khunjerab may start up to 1000 m below the pass
+
+[line.jaglot_skardu]
+name = "Jaglot - Skardu branch, planning sketch"
+start = ["Jaglot", 74.623, 35.691]
+end = ["Skardu", 75.655, 35.287]
+follow = ["skardu"]
+band_km = 8
+r_min_m = 400
+
+[line.gilgit_chitral]
+name = "Gilgit - Shandur - Chitral link, planning sketch"
+start = ["Gilgit", 74.314, 35.921]
+end = ["Chitral", 71.787, 35.851]
+follow = ["gilgit_chitral"]
+band_km = 8
+r_min_m = 400
+
+[[reservoir]]
+name = "Diamer-Bhasha (under construction)"
+lon = 73.80
+lat = 35.45
+reach_km = 60
+pool_m = 1160
+freeboard_m = 15
+
+[[reservoir]]
+name = "Dasu (under construction)"
+lon = 73.25
+lat = 35.25
+reach_km = 40
+pool_m = 950
+freeboard_m = 15

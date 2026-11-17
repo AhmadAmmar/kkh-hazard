@@ -1,0 +1,2 @@
+line,length_km,ruling_grade_pct,smoothing_window,start_m,highest_rail_m,end_m,steepest_5km_avg_grade_pct,open_km,tunnel_km,bridge_km,tunnels_n,bridges_n,longest_tunnel_km,cost_low_busd,cost_high_busd
+"Havelian - Khunjerab railway (CPEC proposal), planning sketch",633.7,2.5,21,860,4111,4697,2.0,339.5,231.4,62.9,199,108,28.6,11.2,26.1

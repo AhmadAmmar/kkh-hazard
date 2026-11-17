@@ -1,0 +1,2 @@
+line,length_km,ruling_grade_pct,smoothing_window,start_m,highest_rail_m,end_m,steepest_5km_avg_grade_pct,open_km,tunnel_km,bridge_km,tunnels_n,bridges_n,longest_tunnel_km,cost_low_busd,cost_high_busd
+"Jaglot - Skardu branch, planning sketch",159.0,2.5,7,1424,2260,2254,1.6,144.3,7.6,7.2,10,6,2.5,1.6,3.8
