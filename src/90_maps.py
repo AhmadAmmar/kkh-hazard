@@ -100,8 +100,8 @@ def rng(a, rule):
         return rule
     if rule == "sym":
         m = np.percentile(np.abs(v), 98); return (-m, m)
-    if rule == "log":
-        return tuple(np.percentile(np.log10(v[v > 0]), [2, 98]))
+    if rule == "log":                                   # values are already log10 here (taken in main)
+        return tuple(np.percentile(v, [2, 98]))
     lo, hi = map(float, rule[1:].split("-"))
     return tuple(np.percentile(v, [lo, hi]))
 

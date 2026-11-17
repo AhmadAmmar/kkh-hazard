@@ -44,10 +44,10 @@ def main():
             if geom.intersects(box(w + c * span, n - (r + 1) * span, w + (c + 1) * span, n - r * span))]
     print("tiles", len(todo), "of", rows * cols, flush=True)
     for k, (r, c) in enumerate(todo):
-        out = T / f"tile_{r:03d}_{c:03d}.tif"
+        x0, y0 = w + c * span, n - r * span
+        out = T / f"tile_E{int(x0)}_N{int(y0)}.tif"     # named by map position, so a changed grid never reuses a wrong tile
         if out.exists():
             continue
-        x0, y0 = w + c * span, n - r * span
         req = {"expression": img, "fileFormat": "GEO_TIFF", "bandIds": BANDS,
                "grid": {"dimensions": {"width": N, "height": N},
                         "affineTransform": {"scaleX": PX, "shearX": 0, "translateX": x0, "shearY": 0, "scaleY": -PX, "translateY": y0},
@@ -65,7 +65,7 @@ def main():
         part = out.with_suffix(".part"); part.write_bytes(data); part.rename(out)
         if k % 20 == 0:
             print(k, "/", len(todo), flush=True)
-    tifs = sorted(T.glob("tile_*.tif"))
+    tifs = sorted(T.glob("tile_E*_N*.tif"))
     from osgeo import gdal
     for i, b in enumerate(BANDS, 1):
         gdal.BuildVRT(str(R / f"data/processed/dem_gem15_{b}_utm.vrt"), [str(f) for f in tifs], bandList=[i], srcNodata=float("-inf"), VRTNodata=-9999)
