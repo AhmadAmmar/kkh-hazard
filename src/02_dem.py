@@ -28,6 +28,7 @@ URL = "https://copernicus-dem-30m.s3.amazonaws.com/{n}/{n}.tif"
 
 
 def tiles(buf):
+    """Names of the 1 deg Copernicus DEM tiles covering the buffer."""
     w, s, e, n = buf.to_crs(4326).total_bounds
     for la in range(int(s // 1), int(n // 1) + 1):
         for lo in range(int(w // 1), int(e // 1) + 1):
@@ -35,6 +36,7 @@ def tiles(buf):
 
 
 def get(name):
+    """Local path of a DEM tile, downloaded if missing."""
     f = D / f"{name}.tif"
     if f.exists():
         return f
@@ -47,6 +49,7 @@ def get(name):
 
 
 def main():
+    """Buffer the corridor roads, fetch the DEM tiles covering it and build the corridor DEM."""
     roads = gpd.read_file(R / "data/processed/corridor.gpkg", layer="roads")
     buf = gpd.GeoDataFrame(geometry=[roads.buffer(CFG["buffer_km"] * 1000).union_all()], crs=roads.crs)
     buf.to_file(R / "data/processed/corridor_buffer.gpkg")

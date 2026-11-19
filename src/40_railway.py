@@ -39,6 +39,7 @@ CFG = tomllib.loads((R / "config/railway.toml").read_text(encoding="utf-8"))
 
 
 def dem_grid(cell, bounds):
+    """Corridor DEM averaged to a coarser cell over the bounds, with its transform (below -100 m as NaN)."""
     with rasterio.open(P / "dem_glo30_utm_full.tif") as r:
         win = rasterio.windows.from_bounds(*bounds, r.transform)
         h, w = int(win.height * r.res[1] / cell), int(win.width * r.res[0] / cell)
@@ -49,6 +50,7 @@ def dem_grid(cell, bounds):
 
 
 def horizontal(line, cell):
+    """Least-cost route of a line through the terrain within a band around the roads it follows."""
     from skimage.graph import route_through_array
     roads = gpd.read_file(P / "corridor.gpkg", layer="roads")
     band = roads[roads.road.isin(line["follow"])].buffer(line.get("band_km", 15) * 1000).union_all()
@@ -108,6 +110,7 @@ def vertical(ground, step, grade, floors, c):
     k = int(np.floor(dmax))                                  # max level change per step
     n = len(ground)
     def stepcost(i):
+        """Cost of each step at track height H: tunnel or bridge cost rising with depth or pier height."""
         d = H - ground[i]
         tun = c["tunnel"] * (1 + np.maximum(0, -d - c["tunnel_depth_m"]) / 1500)       # deeper: longer access, more heat
         bri = c["bridge"] * (1 + np.maximum(0, d - c["bridge_height_m"]) / 40)          # taller piers cost more, fast
@@ -138,6 +141,7 @@ def vertical(ground, step, grade, floors, c):
 
 
 def main(name, grade, cell):
+    """Plan a railway line: route, smoothing to a minimum radius, vertical profile at a ruling grade, and costs."""
     line = CFG["line"][name]; c = CFG["unit_cost_musd_per_km"]
     xy, crs = horizontal(line, cell)
     q, w = smooth(xy, line.get("r_min_m", 500))
@@ -188,6 +192,7 @@ def main(name, grade, cell):
 
 
 def figures(name, prof, st, g, line):
+    """Figures of a planned line: map, profile with tunnels and bridges, and costs."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt

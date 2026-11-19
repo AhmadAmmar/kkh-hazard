@@ -45,6 +45,7 @@ INV = R / "data/processed/inventories.gpkg"
 
 
 def fetch(url, f, headers=None):
+    """Download a URL to a file unless it exists; returns the path."""
     f = Path(f); f.parent.mkdir(parents=True, exist_ok=True)
     if f.exists():
         return f
@@ -98,6 +99,7 @@ def ee_grid(img, name, scale):
 
 
 def soil():
+    """SoilGrids clay, sand, silt, coarse fragments, bulk density, organic carbon and pH over the box, from Earth Engine."""
     import ee
     ee.Initialize(project="ee-ahmadammargeo")
     for v in ("clay", "sand", "silt", "cfvo", "bdod", "soc", "phh2o"):
@@ -107,6 +109,7 @@ def soil():
 
 
 def faults():
+    """HimaTibetMap faults, downloaded and extracted."""
     d = RAW / "himatibetmap"
     z = fetch("https://github.com/HimaTibetMap/HimaTibetMap/archive/refs/heads/master.zip", d / "HimaTibetMap-master.zip")
     zipfile.ZipFile(z).extractall(d)
@@ -118,6 +121,7 @@ def faults():
 
 
 def minerals():
+    """USGS mineral resource sites (MRDS) in the box."""
     z = fetch("https://mrdata.usgs.gov/mrds/mrds-csv.zip", RAW / "usgs_mrds/mrds-csv.zip")
     with zipfile.ZipFile(z) as zz:
         name = [n for n in zz.namelist() if n.endswith(".csv")][0]
@@ -128,6 +132,7 @@ def minerals():
 
 
 def emit():
+    """EMIT surface mineral (L2B) granules intersecting the box, newest first, from NASA CMR."""
     q = (f"https://cmr.earthdata.nasa.gov/search/granules.json?short_name=EMITL2BMIN&bounding_box={W},{S},{E},{N}"
          f"&page_size=2000&sort_key=-start_date")
     js = json.loads(urllib.request.urlopen(q, timeout=120).read())
@@ -153,6 +158,7 @@ def emit():
 
 
 def aster():
+    """ASTER mineral indices (Al-OH and others) over the box, with snow and ice masked, from Earth Engine."""
     import ee
     ee.Initialize(project="ee-ahmadammargeo")
     roi = ee.Geometry.Rectangle([W, S, E, N])
@@ -160,6 +166,7 @@ def aster():
            .filter(ee.Filter.lt("CLOUDCOVER", 10)).filter(ee.Filter.calendarRange(6, 10, "month"))
            .filter(ee.Filter.listContains("ORIGINAL_BANDS_PRESENT", "B09")))
     def idx(i):
+        """Mineral band ratios of one ASTER scene, snow (B01/B04 > 2.5) masked."""
         b = lambda n: i.select(n).toFloat().max(1)
         snow = b("B01").divide(b("B04")).gt(2.5)                 # bright VNIR, dark SWIR: snow and ice
         out = ee.Image.cat(b("B05").add(b("B07")).divide(b("B06")).rename("AlOH"),

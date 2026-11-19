@@ -36,6 +36,7 @@ LAMBDA = 0.05546576
 
 
 def meta(txt):
+    """Key-value metadata of a HyP3 text file."""
     d = {}
     for line in txt.read_text(encoding="utf-8", errors="replace").splitlines():
         if ":" in line:
@@ -50,6 +51,7 @@ def num(d, key, default=None):
 
 
 def main():
+    """Download the finished HyP3 jobs and convert unwrapped phase to height."""
     ids = json.loads((O / "jobs.json").read_text())
     h = sdk.HyP3()
     jobs = sdk.Batch([h.get_job_by_id(i) for i in ids])

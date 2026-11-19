@@ -43,6 +43,9 @@ def relief(dem, out, size=67):
 
 
 def main(dem):
+    """Terrain derivatives of the DEM with WhiteboxTools breached DEM, slope, aspect, plan and profile
+    curvature, 1 km relief, ruggedness, D8 and D-infinity flow, wetness and stream power indices, streams, height
+    above stream and distance to stream."""
     wbt = whitebox.WhiteboxTools(); wbt.set_verbose_mode(False); wbt.set_working_dir(str(T))
     p = lambda n: str(T / f"{n}.tif")
     dem = str(Path(dem).resolve())

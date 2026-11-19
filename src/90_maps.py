@@ -64,6 +64,7 @@ LAYERS = {   # name: (file, label, cmap, range rule, caption)
 
 
 def window_bounds(area, ref):
+    """Map bounds of a named area (centre and size in km) in the reference CRS; None for the full corridor."""
     if AREAS[area] is None:
         return None
     lon, lat, km = AREAS[area]
@@ -72,6 +73,7 @@ def window_bounds(area, ref):
 
 
 def read(path, bounds, maxpx=1400):
+    """A raster read over the bounds, decimated to at most maxpx pixels, with its extent."""
     with rasterio.open(path) as r:
         win = from_bounds(*bounds, r.transform) if bounds else None
         w = r.width if win is None else int(win.width); h = r.height if win is None else int(win.height)
@@ -87,6 +89,7 @@ def read(path, bounds, maxpx=1400):
 
 
 def hillshade(dem, px):
+    """Hillshade of a DEM lit from the north-west (half), west and north (a quarter each)."""
     ls = LightSource(azdeg=315, altdeg=40)
     d = np.where(np.isfinite(dem), dem, np.nanmean(dem))
     hs = sum(ls.hillshade(d, vert_exag=1.5, dx=px, dy=px) * w for ls, w in
@@ -95,6 +98,8 @@ def hillshade(dem, px):
 
 
 def rng(a, rule):
+    """Colour range of an array: a fixed (min, max), 'sym' (+-98th percentile of |a|),
+    'log' (2nd-98th percentile) or 'pLO-HI' percentiles."""
     v = a[np.isfinite(a)]
     if isinstance(rule, tuple):
         return rule
@@ -107,6 +112,7 @@ def rng(a, rule):
 
 
 def overlays(ax, bounds, vec):
+    """Draw the vector layers clipped to the bounds."""
     w, s, e, n = bounds
     for name, g in vec.items():
         g = g.cx[w:e, s:n]
@@ -128,6 +134,7 @@ def overlays(ax, bounds, vec):
 
 
 def furniture(ax, bounds):
+    """Scale bar and north arrow."""
     w, s, e, n = bounds
     span = (e - w) / 1000
     km = [k for k in (1, 2, 5, 10, 20, 50, 100) if k <= span / 4][-1]
@@ -142,6 +149,7 @@ def furniture(ax, bounds):
 
 
 def legend(fig):
+    """Figure legend of the road routes."""
     from matplotlib.lines import Line2D
     h = [Line2D([], [], color=c, lw=2, label=l) for c, l in ((ROADC["n35"], "KKH N-35"), (ROADC["n15"], "Babusar N-15"),
          (ROADC["astore"], "Astore"), (ROADC["ghizer"], "Ghizer"), (ROADC["skardu"], "Skardu S-1"))]
@@ -152,6 +160,7 @@ def legend(fig):
 
 
 def main(area, only):
+    """Hazard maps of an area: hillshaded layers with roads, tunnels, dams and other overlays."""
     vec = {"roads": gpd.read_file(P / "corridor.gpkg", layer="roads").to_crs(UTM),
            "tunnels": gpd.read_file(P / "corridor.gpkg", layer="structures").to_crs(UTM).query("tunnel"),
            "dams": gpd.read_file(P / "corridor.gpkg", layer="dams").to_crs(UTM),

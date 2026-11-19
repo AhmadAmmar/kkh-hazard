@@ -30,11 +30,13 @@ UTM = 32643
 
 
 def tag(s, k):
+    """Value of key k in an OSM other_tags string, or None."""
     m = re.search(rf'"{k}"=>"([^"]*)"', s or "")
     return m.group(1) if m else None
 
 
 def load_places():
+    """OSM places in the corridor, in UTM, with a lower-case English name (name:en, else name)."""
     p = gpd.read_file(R / "data/raw/osm_corridor.gpkg", layer="places").to_crs(UTM)
     p["en"] = p.other_tags.fillna("").str.extract(r'"name:en"=>"([^"]*)"')[0].fillna(p["name"]).fillna("")
     p["en"] = p["en"].str.replace("‎", "", regex=False).str.strip().str.lower()
@@ -62,6 +64,8 @@ def geocode(v, places, prev):
 
 
 def graph(ways):
+    """Network graph of road ways: nodes at line vertices, edges weighted by length and keyed to their way;
+    dead ends within 40 m of another piece are joined by a gap edge at three times its length."""
     G = nx.Graph()
     for idx, g in zip(ways.index, ways.geometry):
         lines = [g] if g.geom_type == "LineString" else list(g.geoms)
@@ -87,6 +91,8 @@ def graph(ways):
 
 
 def main():
+    """Corridor roads from OSM: route, bridge, tunnel and English name of each way, then each configured road
+    traced through the network into segments and towns; writes the corridor layers and a summary."""
     r = gpd.read_file(R / "data/raw/osm_corridor.gpkg", layer="roads").to_crs(UTM)
     ot = r.other_tags.fillna("")
     r["ref"] = ot.map(lambda s: tag(s, "ref"))

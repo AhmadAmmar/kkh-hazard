@@ -37,6 +37,7 @@ C = 299_792_458.0
 
 
 def main():
+    """Find NISAR interferogram products (GUNW) over the corridor segments."""
     buf = gpd.read_file(R / "data/processed/corridor_buffer.gpkg").to_crs(32643)
     segs = gpd.read_file(R / "data/processed/corridor.gpkg", layer="segments").to_crs(32643)
     mid = segs.geometry.interpolate(0.5, normalized=True)

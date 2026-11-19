@@ -50,6 +50,7 @@ TER = plt.get_cmap("terrain")
 
 # ------------------------------------------------------------------ data and forward model
 def load_dem(lon, lat, km, n=360):
+    """Copernicus DEM patch of km size around a point, resampled to n x n, with pixel size and box."""
     tile = R / f"data/raw/dem/glo30/Copernicus_DSM_COG_10_N{int(lat):02d}_00_E{int(lon):03d}_00_DEM.tif"
     dlat = km / 111.32 / 2; dlon = dlat / np.cos(np.radians(lat))
     with rasterio.open(tile) as r:
@@ -59,6 +60,7 @@ def load_dem(lon, lat, km, n=360):
 
 
 def simulate(z, px, seed):
+    """Two simulated single-look complex images of the terrain from slightly different orbits, with noise."""
     rng = np.random.default_rng(seed)
     ny, nx = z.shape
     x = np.arange(nx) * px                                     # ground range (m), radar looks along +x
@@ -100,6 +102,7 @@ def fringe_coherence(ifg, s1, s2, L=5):
 
 
 def wrap(p):
+    """Phase wrapped to (-pi, pi]."""
     return (p + np.pi) % (2 * np.pi) - np.pi
 
 
@@ -111,6 +114,7 @@ def unwrap_quality(w, q, mask, ref):
     u[ref] = w[ref]; done[ref] = True
     heap, order = [], [ref]
     def push(i, j, pi, pj):
+        """Queue the unvisited, valid neighbours of a pixel by their quality."""
         for a, b in ((i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)):
             if 0 <= a < ny and 0 <= b < nx and mask[a, b] and not done[a, b]:
                 heapq.heappush(heap, (-q[a, b], a, b, i, j))
@@ -126,16 +130,20 @@ def unwrap_quality(w, q, mask, ref):
 
 # ------------------------------------------------------------------ drawing helpers
 class Film:
+    """Frame writer for the animation."""
     def __init__(self, d):
+        """Start an empty frame folder."""
         self.d, self.n = d, 0
         shutil.rmtree(d, ignore_errors=True); d.mkdir(parents=True)
 
     def shot(self, fig, hold=1):
+        """Save a figure as the next frame(s)."""
         for _ in range(hold):
             fig.savefig(self.d / f"f{self.n:05d}.png", dpi=100); self.n += 1
 
 
 def frame(title, step, caption):
+    """A blank animation frame with step label, title and caption."""
     fig = plt.figure(figsize=(12.8, 7.2))
     fig.text(0.03, 0.95, f"{step}", fontsize=11, color=ACC, fontweight="bold", va="top")
     fig.text(0.03, 0.91, title, fontsize=18, color=INK, fontweight="bold", va="top")
@@ -146,12 +154,14 @@ def frame(title, step, caption):
 
 
 def img(ax, a, cmap, vmin=None, vmax=None, title=""):
+    """Show an array on axes without ticks."""
     ax.imshow(a, cmap=cmap, vmin=vmin, vmax=vmax, interpolation="nearest"); ax.set_xticks([]); ax.set_yticks([])
     ax.set_title(title, fontsize=11, color=INK)
 
 
 # ------------------------------------------------------------------ scenes
 def scene_geometry(film, z, sim, fps):
+    """Scene 1: the two-pass geometry."""
     row = z[z.shape[0] // 2]; x = sim["x"] / 1000
     for t in np.linspace(0, 1, int(fps * 4)):
         fig = frame("Two passes see one point from slightly different places", "1  Geometry",
@@ -178,6 +188,7 @@ def scene_geometry(film, z, sim, fps):
 
 
 def scene_slc(film, sim, fps):
+    """Scene 2: the two SLC images."""
     a1, a2 = np.abs(sim["s1"]) ** 2, np.abs(sim["s2"]) ** 2
     for k in range(int(fps * 4)):
         fig = frame("Pre-processing: two single-look complex images", "2  Pre-processing",
@@ -193,6 +204,7 @@ def scene_slc(film, sim, fps):
 
 
 def scene_ifg(film, sim, fps):
+    """Scene 3: forming the interferogram."""
     ifg = sim["s1"] * np.conj(sim["s2"])
     ny = ifg.shape[0]
     for t in np.linspace(0, 1, int(fps * 4)):
@@ -210,6 +222,7 @@ def scene_ifg(film, sim, fps):
 
 
 def scene_flat(film, sim, ifg, fps):
+    """Scene 4: removing the flat-earth phase."""
     flat = np.exp(-1j * sim["phi_flat"])          # remove: multiply by the conjugate of the predicted ramp
     out = ifg * flat
     for t in np.linspace(0, 1, int(fps * 4)):
@@ -226,6 +239,7 @@ def scene_flat(film, sim, ifg, fps):
 
 
 def scene_coh(film, sim, ifg_t, fps):
+    """Scene 5: coherence and filtering."""
     num, coh = fringe_coherence(ifg_t, sim["s1"], sim["s2"])
     filt = np.angle(num)
     mask = coh >= 0.4
@@ -284,6 +298,7 @@ def scene_unwrap(film, sim, ifg_t, filt, coh, mask, fps, z):
 
 
 def scene_height(film, u, ref, z, zref, scale, fps):
+    """Scene 6: unwrapped phase to height, with errors against the DEM."""
     zh = zref + scale * (u - u[ref]) + (z[ref] - zref[ref])     # one control point fixes the level
     err = zh - z; e0 = zref - z
     nm = lambda e: 1.4826 * np.nanmedian(np.abs(e - np.nanmedian(e)))
@@ -302,6 +317,7 @@ def scene_height(film, u, ref, z, zref, scale, fps):
 
 
 def scene_points(film, z, zh, filt, u, ref, scale, box, points, fps):
+    """Scene 7: heights at named points."""
     ny, nx = z.shape
     w, s, e, n = box
     pix = [(int((n - la) / (n - s) * ny), int((lo - w) / (e - w) * nx)) for lo, la in points]
@@ -339,12 +355,14 @@ def scene_points(film, z, zh, filt, u, ref, scale, box, points, fps):
 
 
 def main(a):
+    """Build the whole InSAR height animation."""
     OUT.mkdir(parents=True, exist_ok=True)
     z, px, box = load_dem(a.lon, a.lat, a.km)
     sim = simulate(z, px, a.seed)
     film = Film(OUT / "frames")
     marks = {}
     def mark(name):
+        """Record the frame where a scene starts."""
         marks[name] = film.n
     mark("1_geometry"); scene_geometry(film, z, sim, a.fps)
     mark("2_slc"); scene_slc(film, sim, a.fps)

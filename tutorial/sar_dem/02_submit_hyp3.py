@@ -20,6 +20,7 @@ O = Path(__file__).parent / "out"
 
 
 def main(n=2):
+    """Submit n InSAR pairs (half ascending, half descending) to HyP3 and record the job ids."""
     p = pd.read_csv(O / "pairs.csv")
     pick = pd.concat([p[p["dir"] == d].head(n // 2 or 1) for d in ("ASCENDING", "DESCENDING")])
     h = sdk.HyP3()                                    # reads ~/_netrc

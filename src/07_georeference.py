@@ -32,6 +32,7 @@ BIN = Path("C:/Users/Owner/anaconda3/envs/eo/Library/bin")
 def fit(px, py, X, Y, order):
     """Polynomial fit pixel -> map; returns predict function."""
     def design(u, v):
+        """Polynomial design matrix of scan coordinates (u, v) to the given order."""
         cols = [np.ones_like(u), u, v]
         if order >= 2:
             cols += [u * u, u * v, v * v]
@@ -42,6 +43,8 @@ def fit(px, py, X, Y, order):
 
 
 def georef(scan, gcps, order, crs):
+    """Georeference a scanned map from ground control points: report each point's
+    leave-one-out error, then warp with GDAL (polynomial order or thin-plate spline)."""
     g = pd.read_csv(gcps)
     pts = gpd.GeoSeries(gpd.points_from_xy(g.lon, g.lat), crs=4326).to_crs(crs)
     X, Y = pts.x.values, pts.y.values
@@ -70,11 +73,15 @@ def georef(scan, gcps, order, crs):
 
 
 def lab(rgb):
+    """RGB colours converted to CIELAB."""
     from skimage.color import rgb2lab
     return rgb2lab(np.asarray(rgb, dtype="float64").reshape(-1, 1, 3) / 255).reshape(-1, 3)
 
 
 def digitise(tif, legend, min_area_ha, max_de=18):
+    """Polygons of each legend colour in a georeferenced map: pixels within max_de (CIELAB distance) of
+        the legend colour, smoothed, polygons below min_area_ha dropped.
+    """
     import rasterio
     from rasterio.features import shapes
     from scipy.ndimage import generic_filter

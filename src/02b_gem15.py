@@ -32,6 +32,8 @@ PX, N = 15, 1024
 
 
 def main():
+    """Download the 15 m DEM (ASSET) over the corridor buffer from Earth Engine as UTM 43N GeoTIFF tiles,
+    skipping tiles already present."""
     ee.Initialize(project="ee-ahmadammargeo")
     buf = gpd.read_file(R / "data/processed/corridor_buffer.gpkg").to_crs(32643)
     geom = buf.geometry.iloc[0]

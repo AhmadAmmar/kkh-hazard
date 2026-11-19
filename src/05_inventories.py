@@ -28,6 +28,7 @@ OUT = R / "data/processed/inventories.gpkg"
 
 
 def fetch(url, f):
+    """Download a URL to a file unless it exists; returns the path."""
     f = Path(f); f.parent.mkdir(parents=True, exist_ok=True)
     if f.exists():
         return f
@@ -39,6 +40,7 @@ def fetch(url, f):
 
 
 def save(gdf, layer):
+    """Write a layer clipped to the study box to the inventory file."""
     gdf = gdf.cx[W:E, S:N]
     gdf.to_file(OUT, layer=layer)
     print(layer, len(gdf), flush=True)
@@ -46,6 +48,8 @@ def save(gdf, layer):
 
 
 def main():
+    """Fetch the hazard inventories (GEM active faults, USGS earthquakes M3+ since 1900, NASA
+    landslide catalogue and others) and save them clipped to the corridor."""
     raw = R / "data/raw"
     try:
         f = fetch("https://raw.githubusercontent.com/GEMScienceTools/gem-global-active-faults/master/geojson/gem_active_faults_harmonized.geojson",
