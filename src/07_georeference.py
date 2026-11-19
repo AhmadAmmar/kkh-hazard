@@ -80,7 +80,7 @@ def lab(rgb):
 
 def digitise(tif, legend, min_area_ha, max_de=18):
     """Polygons of each legend colour in a georeferenced map: pixels within max_de (CIELAB distance) of
-        the legend colour, smoothed, polygons below min_area_ha dropped.
+    the legend colour, smoothed, polygons below min_area_ha dropped.
     """
     import rasterio
     from rasterio.features import shapes

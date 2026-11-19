@@ -27,7 +27,7 @@ R_SLANT, THETA = 850e3, 0.68   # rough slant range (m) and incidence (rad, ~39 d
 
 def main(lon=74.82, lat=36.32):
     """Sentinel-1 IW SLC scenes over a point (Oct 2023-Mar 2025) from ASF, paired by track for
-        interferometry, written to pairs.csv.
+    interferometry, written to pairs.csv.
     """
     wkt = f"POINT({lon} {lat})"
     res = asf.geo_search(platform=asf.PLATFORM.SENTINEL1, processingLevel=asf.PRODUCT_TYPE.SLC,
